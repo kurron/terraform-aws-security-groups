@@ -20,10 +20,25 @@ variable "vpc_region" {
 
 variable "project" {
     type = "string"
-    description = "Name of the project this resource is being created for, e.g. violet-sloth"
+    description = "Name of the project these resources are being created for, e.g. violet-sloth"
+}
+
+variable "creator" {
+    type = "string"
+    description = "Person creating these resources, e.g. operations@example.com"
 }
 
 variable "environment" {
     type = "string"
-    description = "Context the resources will be used in, e.g. production"
+    description = "Context these resources will be used in, e.g. production"
+}
+
+variable "freetext" {
+    type = "string"
+    description = "Information that does not fit in the other tags, e.g. end-of-life 12/31/2021"
+}
+
+variable "bastion_ingress_cidr_blocks" {
+    type = "list"
+    description = "IP ranges to allows inbound SSH access to, e.g. [98.216.147.13/32]"
 }
