@@ -16,6 +16,7 @@ variable "vpc_key" {
 variable "vpc_region" {
     type = "string"
     description = "Region where the S3 bucket containing the VPC Terraform state is located, e.g. us-east-1"
+    default = "us-east-1"
 }
 
 variable "project" {
