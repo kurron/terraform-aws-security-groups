@@ -7,19 +7,10 @@ provider "aws" {
     region     = "${var.region}"
 }
 
-data "terraform_remote_state" "vpc" {
-    backend = "s3"
-    config {
-        bucket = "${var.vpc_bucket}"
-        key    = "${var.vpc_key}"
-        region = "${var.vpc_region}"
-    }
-}
-
 resource "aws_security_group" "bastion_access" {
     name_prefix = "bastion-"
     description = "Controls access to the Bastion boxes"
-    vpc_id = "${data.terraform_remote_state.vpc.vpc_id}"
+    vpc_id = "${var.vpc_id}"
     tags {
         Name        = "Bastion Access"
         Project     = "${var.project}"
@@ -36,7 +27,7 @@ resource "aws_security_group" "bastion_access" {
 resource "aws_security_group" "api_gateway_access" {
     name_prefix = "api-gateway-"
     description = "Controls access to the API Gateway"
-    vpc_id = "${data.terraform_remote_state.vpc.vpc_id}"
+    vpc_id = "${var.vpc_id}"
     tags {
         Name        = "API Gateway Access"
         Project     = "${var.project}"
@@ -53,7 +44,7 @@ resource "aws_security_group" "api_gateway_access" {
 resource "aws_security_group" "alb_access" {
     name_prefix = "alb-"
     description = "Controls access to the Application Load Balancer"
-    vpc_id = "${data.terraform_remote_state.vpc.vpc_id}"
+    vpc_id = "${var.vpc_id}"
     tags {
         Name        = "Application Load Balancer Access"
         Project     = "${var.project}"
@@ -70,7 +61,7 @@ resource "aws_security_group" "alb_access" {
 resource "aws_security_group" "ec2_access" {
     name_prefix = "ec2-"
     description = "Controls access to the EC2 instances"
-    vpc_id = "${data.terraform_remote_state.vpc.vpc_id}"
+    vpc_id = "${var.vpc_id}"
     tags {
         Name        = "EC2 Access"
         Project     = "${var.project}"

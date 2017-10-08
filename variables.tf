@@ -3,20 +3,9 @@ variable "region" {
     description = "The AWS region to deploy into, e.g. us-east-1"
 }
 
-variable "vpc_bucket" {
+variable "vpc_id" {
     type = "string"
-    description = "S3 bucket containing the VPC Terraform state, e.g. terraform-state"
-}
-
-variable "vpc_key" {
-    type = "string"
-    description = "S3 key pointing to the VPC Terraform state, e.g. ca-central-1/development/networking/vpc/terraform.tfstate"
-}
-
-variable "vpc_region" {
-    type = "string"
-    description = "Region where the S3 bucket containing the VPC Terraform state is located, e.g. us-east-1"
-    default = "us-east-1"
+    description = "ID of the VPC to associate the created resources to"
 }
 
 variable "project" {
