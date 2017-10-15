@@ -1,6 +1,8 @@
 # Overview
 This Terraform module creates Security Groups used by various other modules,
-including Bastion instances and ECS clusters.
+including Bastion instances and ECS clusters.  Security groups created include:
+* restricted SSH access to the Bastion instances
+* restricted SSH access to EC2 instances in private subnets
 
 # Prerequisites
 * [Terraform](https://terraform.io/) installed and working
@@ -18,7 +20,7 @@ for example usage.
 
 ## Debugging
 The `debug` folder contains files that can be used to test out local changes
-to the module.  Edit `backend.cfg` and `configuration.tf` to your liking and
+to the module.  Edit `backend.cfg` and `plan.tf` to your liking and
 then run `debug/debug-module.sh` to test your changes.
 
 # Troubleshooting
