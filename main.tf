@@ -10,7 +10,7 @@ provider "aws" {
 resource "aws_security_group" "bastion_access" {
     name_prefix = "bastion-"
     description = "Controls access to the Bastion boxes"
-    vpc_id = "${var.vpc_id}"
+    vpc_id      = "${var.vpc_id}"
     tags {
         Name        = "Bastion Access"
         Project     = "${var.project}"
@@ -27,7 +27,7 @@ resource "aws_security_group" "bastion_access" {
 resource "aws_security_group" "api_gateway_access" {
     name_prefix = "api-gateway-"
     description = "Controls access to the API Gateway"
-    vpc_id = "${var.vpc_id}"
+    vpc_id      = "${var.vpc_id}"
     tags {
         Name        = "API Gateway Access"
         Project     = "${var.project}"
@@ -44,7 +44,7 @@ resource "aws_security_group" "api_gateway_access" {
 resource "aws_security_group" "alb_access" {
     name_prefix = "alb-"
     description = "Controls access to the Application Load Balancer"
-    vpc_id = "${var.vpc_id}"
+    vpc_id      = "${var.vpc_id}"
     tags {
         Name        = "Application Load Balancer Access"
         Project     = "${var.project}"
@@ -61,7 +61,7 @@ resource "aws_security_group" "alb_access" {
 resource "aws_security_group" "ec2_access" {
     name_prefix = "ec2-"
     description = "Controls access to the EC2 instances"
-    vpc_id = "${var.vpc_id}"
+    vpc_id      = "${var.vpc_id}"
     tags {
         Name        = "EC2 Access"
         Project     = "${var.project}"
@@ -76,6 +76,32 @@ resource "aws_security_group" "ec2_access" {
 }
 
 # build the rules AFTER the empty security groups are constructed to avoid circular references
+
+resource "aws_security_group_rule" "alb_ingress" {
+    type              = "ingress"
+    cidr_blocks       = "${var.alb_ingress_cidr_blocks}"
+    from_port         = 80
+    protocol          = "tcp"
+    security_group_id = "${aws_security_group.alb_access.id}"
+    to_port           = 80
+    description       = "Restrict unencrypted HTTP access to specific addresses"
+    lifecycle {
+        create_before_destroy = true
+    }
+}
+
+resource "aws_security_group_rule" "alb_egress" {
+    type              = "egress"
+    cidr_blocks       = ["${var.vpc_cidr}"]
+    from_port         = 0
+    protocol          = "all"
+    security_group_id = "${aws_security_group.alb_access.id}"
+    to_port           = 65535
+    description       = "Restrict traffic to the VPC network only"
+    lifecycle {
+        create_before_destroy = true
+    }
+}
 
 resource "aws_security_group_rule" "bastion_ingress" {
     type              = "ingress"

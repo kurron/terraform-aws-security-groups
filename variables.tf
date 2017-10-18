@@ -8,6 +8,11 @@ variable "vpc_id" {
     description = "ID of the VPC to associate the created resources to"
 }
 
+variable "vpc_cidr" {
+    type = "string"
+    description = "Network CIDR of the VPC to allow traffic to."
+}
+
 variable "project" {
     type = "string"
     description = "Name of the project these resources are being created for, e.g. violet-sloth"
@@ -31,4 +36,9 @@ variable "freetext" {
 variable "bastion_ingress_cidr_blocks" {
     type = "list"
     description = "IP ranges to allows inbound SSH access to, e.g. [98.216.147.13/32]"
+}
+
+variable "alb_ingress_cidr_blocks" {
+    type = "list"
+    description = "IP ranges to allows inbound HTTP access from, e.g. [98.216.147.13/32]"
 }
