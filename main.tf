@@ -110,6 +110,7 @@ resource "aws_security_group_rule" "bastion_ingress" {
     protocol          = "tcp"
     security_group_id = "${aws_security_group.bastion_access.id}"
     to_port           = 22
+    description       = "Restrict SSH access to specific addresses"
     lifecycle {
         create_before_destroy = true
     }
@@ -122,18 +123,33 @@ resource "aws_security_group_rule" "bastion_egress" {
     protocol          = "all"
     security_group_id = "${aws_security_group.bastion_access.id}"
     to_port           = 65535
+    description       = "Allow unrestricted egress"
     lifecycle {
         create_before_destroy = true
     }
 }
 
-resource "aws_security_group_rule" "ec2_ingress" {
+resource "aws_security_group_rule" "ec2_ingress_bastion" {
     type                     = "ingress"
     from_port                = 0
     protocol                 = "all"
     security_group_id        = "${aws_security_group.ec2_access.id}"
     source_security_group_id = "${aws_security_group.bastion_access.id}"
     to_port                  = 65535
+    description              = "Only allow traffic from the Bastion boxes"
+    lifecycle {
+        create_before_destroy = true
+    }
+}
+
+resource "aws_security_group_rule" "ec2_ingress_alb" {
+    type                     = "ingress"
+    from_port                = 0
+    protocol                 = "all"
+    security_group_id        = "${aws_security_group.ec2_access.id}"
+    source_security_group_id = "${aws_security_group.alb_access.id}"
+    to_port                  = 65535
+    description              = "Only allow traffic from the load balancers"
     lifecycle {
         create_before_destroy = true
     }
@@ -146,6 +162,7 @@ resource "aws_security_group_rule" "ec2_egress" {
     protocol           = "all"
     security_group_id  = "${aws_security_group.ec2_access.id}"
     to_port            = 65535
+    description       = "Allow unrestricted egress"
     lifecycle {
         create_before_destroy = true
     }
