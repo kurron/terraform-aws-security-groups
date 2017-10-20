@@ -136,7 +136,7 @@ resource "aws_security_group_rule" "ec2_ingress_bastion" {
     security_group_id        = "${aws_security_group.ec2_access.id}"
     source_security_group_id = "${aws_security_group.bastion_access.id}"
     to_port                  = 65535
-    description              = "Only allow traffic from the Bastion boxes"
+#    description              = "Only allow traffic from the Bastion boxes"
     lifecycle {
         create_before_destroy = true
     }
@@ -149,7 +149,7 @@ resource "aws_security_group_rule" "ec2_ingress_alb" {
     security_group_id        = "${aws_security_group.ec2_access.id}"
     source_security_group_id = "${aws_security_group.alb_access.id}"
     to_port                  = 65535
-    description              = "Only allow traffic from the load balancers"
+#    description              = "Only allow traffic from the load balancers"
     lifecycle {
         create_before_destroy = true
     }
