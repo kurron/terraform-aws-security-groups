@@ -129,6 +129,8 @@ resource "aws_security_group_rule" "bastion_egress" {
     }
 }
 
+# https://github.com/hashicorp/terraform/issues/13966 prevents us from specifying descriptions for now
+
 resource "aws_security_group_rule" "ec2_ingress_bastion" {
     type                     = "ingress"
     from_port                = 0
