@@ -25,7 +25,6 @@ module "security-group" {
     vpc_id                      = "${data.terraform_remote_state.vpc.vpc_id}"
     vpc_cidr                    = "${data.terraform_remote_state.vpc.cidr}"
     bastion_ingress_cidr_blocks = ["64.222.174.146/32","98.216.147.13/32"]
-    alb_ingress_cidr_blocks     = ["64.222.174.146/32","98.216.147.13/32"]
 }
 
 output "bastion_id" {

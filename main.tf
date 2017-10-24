@@ -77,32 +77,6 @@ resource "aws_security_group" "ec2_access" {
 
 # build the rules AFTER the empty security groups are constructed to avoid circular references
 
-resource "aws_security_group_rule" "alb_ingress" {
-    type              = "ingress"
-    cidr_blocks       = "${var.alb_ingress_cidr_blocks}"
-    from_port         = 80
-    protocol          = "tcp"
-    security_group_id = "${aws_security_group.alb_access.id}"
-    to_port           = 80
-    description       = "Restrict unencrypted HTTP access to specific addresses"
-    lifecycle {
-        create_before_destroy = true
-    }
-}
-
-resource "aws_security_group_rule" "alb_egress" {
-    type              = "egress"
-    cidr_blocks       = ["${var.vpc_cidr}"]
-    from_port         = 0
-    protocol          = "all"
-    security_group_id = "${aws_security_group.alb_access.id}"
-    to_port           = 65535
-    description       = "Restrict traffic to the VPC network only"
-    lifecycle {
-        create_before_destroy = true
-    }
-}
-
 resource "aws_security_group_rule" "bastion_ingress" {
     type              = "ingress"
     cidr_blocks       = "${var.bastion_ingress_cidr_blocks}"

@@ -37,8 +37,3 @@ variable "bastion_ingress_cidr_blocks" {
     type = "list"
     description = "IP ranges to allows inbound SSH access to, e.g. [98.216.147.13/32]"
 }
-
-variable "alb_ingress_cidr_blocks" {
-    type = "list"
-    description = "IP ranges to allows inbound HTTP access from, e.g. [98.216.147.13/32]"
-}
