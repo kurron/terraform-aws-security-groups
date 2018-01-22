@@ -47,3 +47,13 @@ output "mysql_name" {
     value = "${aws_security_group.mysql_access.name}"
     description = "Name of the MySQL security group"
 }
+
+output "redis_id" {
+    value = "${aws_security_group.redis_access.id}"
+    description = "ID of the Redis security group"
+}
+
+output "redis_name" {
+    value = "${aws_security_group.redis_access.name}"
+    description = "Name of the Redis security group"
+}

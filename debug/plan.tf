@@ -64,3 +64,11 @@ output "mysql_id" {
 output "mysql_name" {
     value = "${module.security-group.mysql_name}"
 }
+
+output "redis_id" {
+    value = "${module.security-group.redis_id}"
+}
+
+output "redis_name" {
+    value = "${module.security-group.redis_name}"
+}

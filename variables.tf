@@ -43,3 +43,9 @@ variable "mysql_port_number" {
     description = "Port to allow for communicating with MySQL, e.g. 3306"
     default = "3306"
 }
+
+variable "redis_port_number" {
+    type = "string"
+    description = "Port to allow for communicating with Redis, e.g. 6379"
+    default = "6379"
+}

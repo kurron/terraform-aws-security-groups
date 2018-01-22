@@ -92,6 +92,23 @@ resource "aws_security_group" "mysql_access" {
     }
 }
 
+resource "aws_security_group" "redis_access" {
+    name_prefix = "elasticache-redis-"
+    description = "Controls access to the ElastiCache Redis instances"
+    vpc_id      = "${var.vpc_id}"
+    tags {
+        Name        = "Redis Access"
+        Project     = "${var.project}"
+        Purpose     = "Controls access to the ElastiCache Redis instances"
+        Creator     = "${var.creator}"
+        Environment = "${var.environment}"
+        Freetext    = "${var.freetext}"
+    }
+    lifecycle {
+        create_before_destroy = true
+    }
+}
+
 # build the rules AFTER the empty security groups are constructed to avoid circular references
 
 resource "aws_security_group_rule" "bastion_ingress" {
@@ -180,6 +197,32 @@ resource "aws_security_group_rule" "mysql_ingress_from_ec2" {
     source_security_group_id = "${aws_security_group.ec2_access.id}"
     to_port                  = "${var.mysql_port_number}"
     description              = "Only MySQL traffic from the EC2 instances"
+    lifecycle {
+        create_before_destroy = true
+    }
+}
+
+resource "aws_security_group_rule" "redis_ingress_from_bastion" {
+    type                     = "ingress"
+    from_port                = "${var.redis_port_number}"
+    protocol                 = "tcp"
+    security_group_id        = "${aws_security_group.redis_access.id}"
+    source_security_group_id = "${aws_security_group.bastion_access.id}"
+    to_port                  = "${var.redis_port_number}"
+    description              = "Only Redis traffic from the Bastion servers"
+    lifecycle {
+        create_before_destroy = true
+    }
+}
+
+resource "aws_security_group_rule" "redis_ingress_from_ec2" {
+    type                     = "ingress"
+    from_port                = "${var.redis_port_number}"
+    protocol                 = "tcp"
+    security_group_id        = "${aws_security_group.redis_access.id}"
+    source_security_group_id = "${aws_security_group.ec2_access.id}"
+    to_port                  = "${var.redis_port_number}"
+    description              = "Only Redis traffic from the EC2 instances"
     lifecycle {
         create_before_destroy = true
     }
