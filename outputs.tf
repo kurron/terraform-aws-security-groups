@@ -37,3 +37,13 @@ output "ec2_name" {
     value = "${aws_security_group.ec2_access.name}"
     description = "Name of the EC2 security group"
 }
+
+output "mysql_id" {
+    value = "${aws_security_group.mysql_access.id}"
+    description = "ID of the MySQL security group"
+}
+
+output "mysql_name" {
+    value = "${aws_security_group.mysql_access.name}"
+    description = "Name of the MySQL security group"
+}

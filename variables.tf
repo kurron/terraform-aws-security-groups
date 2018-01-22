@@ -37,3 +37,9 @@ variable "bastion_ingress_cidr_blocks" {
     type = "list"
     description = "IP ranges to allows inbound SSH access to, e.g. [98.216.147.13/32]"
 }
+
+variable "mysql_port_number" {
+    type = "string"
+    description = "Port to allow for communicating with MySQL, e.g. 3306"
+    default = "3306"
+}

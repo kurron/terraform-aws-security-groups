@@ -56,3 +56,11 @@ output "ec2_id" {
 output "ec2_name" {
     value = "${module.security-group.ec2_name}"
 }
+
+output "mysql_id" {
+    value = "${module.security-group.mysql_id}"
+}
+
+output "mysql_name" {
+    value = "${module.security-group.mysql_name}"
+}
