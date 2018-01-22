@@ -1,5 +1,5 @@
 terraform {
-    required_version = ">= 0.10.6"
+    required_version = ">= 0.11.2"
     backend "s3" {}
 }
 
@@ -7,7 +7,7 @@ data "terraform_remote_state" "vpc" {
     backend = "s3"
     config {
         bucket = "transparent-test-terraform-state"
-        key    = "us-west-2/debug/networking/vpc/terraform.tfstate"
+        key    = "us-east-2/debug/networking/vpc/terraform.tfstate"
         region = "us-east-1"
     }
 }
@@ -15,13 +15,11 @@ data "terraform_remote_state" "vpc" {
 module "security-group" {
     source = "../"
 
-    region = "us-west-2"
-
-    project     = "Debug"
-    creator     = "kurron@jvmguy.com"
-    environment = "development"
-    freetext    = "No notes at this time."
-
+    region                      = "us-east-2"
+    project                     = "Debug"
+    creator                     = "kurron@jvmguy.com"
+    environment                 = "development"
+    freetext                    = "No notes at this time."
     vpc_id                      = "${data.terraform_remote_state.vpc.vpc_id}"
     vpc_cidr                    = "${data.terraform_remote_state.vpc.cidr}"
     bastion_ingress_cidr_blocks = ["64.222.174.146/32","98.216.147.13/32"]
